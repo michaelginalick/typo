@@ -1,6 +1,25 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://michaelginalick.com/'
 languageCode = 'en-us'
-title = 'typo'
+title = 'About me'
+theme = 'typo'
+
+[taxonomies]
+tag = 'tags'
+
+[params]
+# Meta description
+description = "Just a guy"
+
+# Appearance settings
+theme = 'auto'
+colorPalette = 'default'
+hideHeader = false
+
+# Intro on main page, content is markdown
+homeIntroTitle = "Hello, I'm Mike"
+homeIntroContent = """
+I'm a software developer in Chicago. I enjoy creating quality software (preferably in Go), taking care of my dog and houseplants.
+"""
 
 [module]
 [module.hugoVersion]
