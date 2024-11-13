@@ -1,5 +1,5 @@
 ---
-title: "User defer in novel ways"
+title: "Using defer in novel ways"
 date: 2024-11-13T09:25:56-06:00
 summary: "Using common language features in novel ways"
 description: "Using defers in novel ways"
