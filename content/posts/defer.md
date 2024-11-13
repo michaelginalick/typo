@@ -65,16 +65,16 @@ func (m ComplicatedPersonModification) Handle() {
 	res, err := doSomeComplicatedThing(m.p)
   if err != nil {
     log.Errorf("An error occured %w", e)
-    return m.ComplicatedPersonModification.Handle()
+    return m.PersonModifier.Handle()
   }
 
   newRes, err := doSomeOtherComplicatedThing(res, m.p)
   if err != nil {
     log.Errorf("An error occured %w", e)
-    return m.ComplicatedPersonModification.Handle()
+    return m.PersonModifier.Handle()
   }
 
-	m.ComplicatedPersonModification.Handle()
+	m.PersonModifier.Handle()
 }
 
 ```
@@ -83,7 +83,7 @@ This became much more difficult to reason about for obvious reasons. This is whe
 
 ```golang
 func (m ComplicatedPersonModification) Handle() {
-  defer m.ComplicatedPersonModification.Handle()
+  defer m.PersonModifier.Handle()
 
   res, err := doSomeComplicatedThing(m.p)
   if err != nil {
