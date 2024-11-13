@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="Using defers in novel ways" />
+
+<title>
+    
+    User defer in novel ways | Me
+    
+</title>
+
+<link rel="canonical" href="http://localhost:1313/posts/defer/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Me</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/defer/">User defer in novel ways</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">User defer in novel ways</h1>
+    
+    <p class="single-summary">Using common language features in novel ways</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-11-13T09:25:56-06:00">November 13, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      3 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="http://localhost:1313/tags/go/">#Go</a>
+    </span>
+    
+    
+    <span>
+      <a href="http://localhost:1313/tags/defer/">#Defer</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+
+  
+
+  <div class="single-content">
+    <p>Go is often described as easy to learn but difficult to master, this rings true for me as I continue to work with the language. One such example is the <code>defer</code> keyword. I&rsquo;ve seen and used <code>defer</code> many times. Like many things, when you see it enough, it starts to feel mundane. For example, using <code>defer</code> to parse JSON into a struct is quite common.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> User <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>  Name <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>  Age  <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>resp, err := fetchSomeData()
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// handle error
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">defer</span> resp.Body.Close()
+</span></span><span style="display:flex;"><span>body, _ := io.ReadAll(res.Body) <span style="color:#007f7f">// ignore error
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> u User
+</span></span><span style="display:flex;"><span>err = json.UnMarshal(body, &amp;u)
+</span></span></code></pre></div><p>Or maybe it&rsquo;s used in the context of working with files.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>file, err := os.Open(<span style="color:#0ff;font-weight:bold">&#34;somefile.txt&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//handle error
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">defer</span> file.Close()
+</span></span></code></pre></div><p>In some ways, this routine approach is the essence of Go. There&rsquo;s nothing particularly interesting or novel about the code above; most languages have something similar. It&rsquo;s basically a way of saying, &ldquo;execute this statement when the function completes&rdquo;.</p>
+<p>However, this week, an unexpected use case for defer came up and made me see it in a new light. In a previous post, I mentioned a feature I was working on where the <a href="https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern">chain of responsibility</a> design pattern was a perfect fit. In this pattern, each function is responsible for doing whatever work it needs to do, as well as calling the next item in the chain. At first, a typical function in the chain looked something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m DoubleAgeModifier) Handle() {
+</span></span><span style="display:flex;"><span>	m.p.Age *= <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	m.PersonModifier.Handle()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We do some basic operation and then call the next handler. Note that, in code not listed here, the <code>Handle</code> method is essentially calling <code>linkedList.Next()</code>. This worked well for most functions. However, some functions were more complicated. For example, they needed to traverse a structure before making the transformation or call some dependency for data. In the context of this chain, none of the individual functions return an error. If anything goes wrong, they log the error and call the next handler. Some of the functions started to look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m ComplicatedPersonModification) Handle() {
+</span></span><span style="display:flex;"><span>	res, err := doSomeComplicatedThing(m.p)
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>    log.Errorf(<span style="color:#0ff;font-weight:bold">&#34;An error occured %w&#34;</span>, e)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> m.ComplicatedPersonModification.Handle()
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  newRes, err := doSomeOtherComplicatedThing(res, m.p)
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>    log.Errorf(<span style="color:#0ff;font-weight:bold">&#34;An error occured %w&#34;</span>, e)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> m.ComplicatedPersonModification.Handle()
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	m.ComplicatedPersonModification.Handle()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This became much more difficult to reason about for obvious reasons. This is where <code>defer</code> came in handy. Instead of calling the next handler N times, it could be placed at the top of the function once, like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m ComplicatedPersonModification) Handle() {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">defer</span> m.ComplicatedPersonModification.Handle()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  res, err := doSomeComplicatedThing(m.p)
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>    log.Errorf(<span style="color:#0ff;font-weight:bold">&#34;An error occured %w&#34;</span>, e)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  newRes, err := doSomeOtherComplicatedThing(res, m.p)
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>    log.Errorf(<span style="color:#0ff;font-weight:bold">&#34;An error occured %w&#34;</span>, e)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Maybe it&rsquo;s silly, but this really floored me. While this code may not be perfect, in my opinion it&rsquo;s much easier to understand. I love finding new ways to use seemingly mundane language features.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/chain-of-responsibility/">
+                        Chain of Responsibility
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

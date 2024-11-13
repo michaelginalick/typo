@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Design Patterns on Me</title>
+    <link>http://localhost:1313/tags/design-patterns/</link>
+    <description>Recent content in Design Patterns on Me</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 08 Nov 2024 11:06:37 -0600</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/design-patterns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chain of Responsibility</title>
+      <link>http://localhost:1313/posts/chain-of-responsibility/</link>
+      <pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
+      <guid>http://localhost:1313/posts/chain-of-responsibility/</guid>
+      <description>Utilizing established design patterns</description>
+    </item>
+  </channel>
+</rss>

@@ -1,6 +1,6 @@
 baseURL = 'https://michaelginalick.com/'
 languageCode = 'en-us'
-title = 'About me'
+title = 'Me'
 theme = 'typo'
 
 [taxonomies]
@@ -18,8 +18,44 @@ hideHeader = false
 # Intro on main page, content is markdown
 homeIntroTitle = "Hello, I'm Mike"
 homeIntroContent = """
-I'm a software developer in Chicago. I enjoy creating quality software (preferably in Go), taking care of my dog and houseplants.
+I'm a software developer in Chicago. I enjoy writing quality software (preferably in Go), taking care of my dog and houseplants.
 """
+
+# Collection to display on home
+homeCollectionTitle = 'Posts'
+homeCollection = 'posts'
+
+# Lists parameters
+paginationSize = 100
+listSummaries = true
+listDateFormat = '2 Jan 2006'
+
+# Breadcrumbs
+breadcrumbs = true
+
+
+[[params.social]]
+name = "github"
+url = "https://github.com/michaelginalick"
+
+# Main menu pages
+[[params.menu]]
+name = "home"
+url = "/"
+
+[[params.menu]]
+name = "posts"
+url = "/posts"
+
+[[params.menu]]
+name = "about"
+url = "/about"
+
+# Syntax highlight on code blocks
+[markup]
+[markup.highlight]
+style = 'obsidian'
+
 
 [module]
 [module.hugoVersion]

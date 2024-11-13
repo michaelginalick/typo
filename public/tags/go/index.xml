@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go on Me</title>
+    <link>http://localhost:1313/tags/go/</link>
+    <description>Recent content in Go on Me</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 Nov 2024 09:25:56 -0600</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>User defer in novel ways</title>
+      <link>http://localhost:1313/posts/defer/</link>
+      <pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
+      <guid>http://localhost:1313/posts/defer/</guid>
+      <description>Using common language features in novel ways</description>
+    </item>
+    <item>
+      <title>Chain of Responsibility</title>
+      <link>http://localhost:1313/posts/chain-of-responsibility/</link>
+      <pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
+      <guid>http://localhost:1313/posts/chain-of-responsibility/</guid>
+      <description>Utilizing established design patterns</description>
+    </item>
+  </channel>
+</rss>
