@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="Navigating software features and functionality" />
+
+<title>
+    
+    Opensearch Explorations | Me
+    
+</title>
+
+<link rel="canonical" href="http://localhost:1313/posts/opensearch-explorations/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Me</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/opensearch-explorations/">Opensearch Explorations</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Opensearch Explorations</h1>
+    
+    <p class="single-summary">Navigating software features and functionality</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-11-20T09:36:03-06:00">November 20, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      5 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="http://localhost:1313/tags/aws-opensearch/">#AWS Opensearch</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+
+  
+
+  <div class="single-content">
+    <p>The team I’m working on is in the process of reinventing how users are presented content on our site. This includes features like search and determining what items users see on the landing page or subsequent pages. Currently, the primary way users come to the site is via email. The content in these emails is configurable at an individual level. For the entire existence of the company, this has been the main focus. If enough data is collected, the data processes are smart enough to serve individualized content.</p>
+<p>To put it more plainly, the content in the email I receive may not be the content in your email. By all accounts, this approach works. The company generates enough user engagement through email to be profitable. However, the drawback of this approach is that once a user clicks through to the site, the content they see is mostly static. By static, I mean there isn’t much intelligence on the site itself. For example, most users see the same content in the “you may also like” section. For the most part, content is served based on recency. Given the ephemeral nature of the market the company operates in, this makes sense. Content expires, and it wouldn’t provide a good user experience if users were shown expired content.</p>
+<h1 id="the-problem">The Problem</h1>
+<p>We store content in AWS OpenSearch. As far as I can tell, OpenSearch is just Elasticsearch under a different name. In fact, whenever I need to research something for OpenSearch, I usually just Google Elasticsearch and can find what I’m looking for.</p>
+<p>The business team approached us with a request: they wanted to sort content on the site based on popularity. Popularity, in this context, is simply user engagement—or, more simply, clicks. They wanted to measure this across three timeframes: 72 hours, 30 days, and 90 days.</p>
+<h1 id="developing-the-feature">Developing the Feature</h1>
+<p>With the requirements in hand, I started developing the feature. I’ll spare you the details here, but the first step was integrating with a third-party system that tracks user engagement. This involved setting up an SQS queue and ingesting the data into a separate index. The next step was taking the data in this new index (let’s call it “popularity”) and hydrating the documents in another index with the popularity data. This was straightforward and involved setting up a few Cron jobs (or, in AWS terms, CloudWatch Events). An event would trigger a Lambda function that queried one index and wrote the results to another.</p>
+<p>This setup worked well for a few weeks—until the amount of data being queried became non-trivial.</p>
+<p>The query we were using was something OpenSearch warns against. In plain terms, it was simply counting how many times an attribute occurred within a given time frame. Here’s an example of the query:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;bool&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;filter&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;term&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;detail.properties.post_uid&#34;</span>: [<span style="color:#f00">uids...</span>]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;uids&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;detail.properties.post_uid.keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;clicks_last_90_days&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;date_range&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;detail.timestamp&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;ranges&#34;</span>: [
+</span></span><span style="display:flex;"><span>              { <span style="font-weight:bold">&#34;from&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now-90d/d&#34;</span>, <span style="font-weight:bold">&#34;to&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now&#34;</span> },
+</span></span><span style="display:flex;"><span>              { <span style="font-weight:bold">&#34;from&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now-30d/d&#34;</span>, <span style="font-weight:bold">&#34;to&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now&#34;</span> },
+</span></span><span style="display:flex;"><span>              { <span style="font-weight:bold">&#34;from&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now-72h/h&#34;</span>, <span style="font-weight:bold">&#34;to&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;now&#34;</span> }
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This query caused massive CPU spikes in OpenSearch whenever it was run. We attempted several fixes, such as batching the number of items being submitted to the query. While this slightly improved performance, it didn’t solve the underlying issue.</p>
+<h1 id="a-better-approach">A Better Approach</h1>
+<p>At this point, you might be wondering, “Isn’t this relational data? Why not use a relational database?” You’re not wrong. However, in many organizations, the tools you have to work with are often dictated by constraints. In this case, OpenSearch was the tool already in use.</p>
+<p>This approach had two primary issues:</p>
+<ol>
+<li>The CPU spikes, which put the cluster at risk of crashing.</li>
+<li>Redundant queries. The same data was being queried unnecessarily. For example, as content expired or saw reduced engagement, the same large queries were being issued. Instead of counting each item every time the query ran, it would have been better to maintain a running tally of engagements as they were processed.</li>
+</ol>
+<h1 id="the-solution-index-transformations">The Solution: Index Transformations</h1>
+<p>After extensive research and trial and error, I discovered a promising feature, <a href="https://opensearch.org/docs/latest/im-plugin/index-transforms/index/">Index transformations</a>. The OpenSearch documentation provides an excellent explanation of this feature’s use cases, so I won’t go into too much detail. In summary, it was exactly what I needed. Instead of issuing the same query for every document, the transform job runs continuously and stores the results for each document.</p>
+<p>Here’s an example of the transform job:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;transform&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;description&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Track click events per post_uid in 72 hours, 30 days, and 90 days intervals&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;page_size&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;enabled&#34;</span>: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;continuous&#34;</span>: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;schedule&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;interval&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;period&#34;</span>: <span style="color:#ff0;font-weight:bold">5</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;unit&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Minutes&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;source_index&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;click-events*&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;target_index&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;post-click-events&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;data_selection_query&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;exists&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;detail.properties.post_uid.keyword&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;groups&#34;</span>: [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;source_field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;detail.properties.post_uid.keyword&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;aggregations&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;clicks_per_period&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;scripted_metric&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;init_script&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;state.clicks_90d = 0; state.clicks_30d = 0; state.clicks_72h = 0;&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;map_script&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            def timestamp = doc[&#39;detail.timestamp&#39;].value.toInstant();
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            Instant now = Instant.ofEpochMilli(System.currentTimeMillis());
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            if (timestamp.isAfter(now.minusSeconds(90L * 24 * 60 * 60))) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              state.clicks_90d += 1;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            if (timestamp.isAfter(now.minusSeconds(30L * 24 * 60 * 60))) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              state.clicks_30d += 1;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            if (timestamp.isAfter(now.minusSeconds(72L * 60 * 60))) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              state.clicks_72h += 1;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">          &#34;&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;combine_script&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;return state;&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;reduce_script&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            Map result = new HashMap();
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            result.clicks_90d = 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            result.clicks_30d = 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            result.clicks_72h = 0;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            for (s in states) {
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              result.clicks_90d += s.clicks_90d;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              result.clicks_30d += s.clicks_30d;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">              result.clicks_72h += s.clicks_72h;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">            return result;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">          &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Obviously this code is much more complex, and took awhile to get correct. However, it was worth the effort. Moving to this approach eliminated the need to query over massive amounts of data, and as a result we saw the CPU usage return to normal. I should note that when we first ran this job, CPU levels spiked. This is because the job needed to go back through every document in the index to get the inital counts. Once the job completed the initial sweep, CPU usage went back down.</p>
+<h1 id="the-lesson">The Lesson</h1>
+<p>Many times the initial solution to something does not hold up in the long term. I spent a lot of time attempting to improve the initial query with the hopes that it would work. It was only until I gave up with one approach was I able to obtain a more complete solution.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/defer/">
+                        Using defer in novel ways
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

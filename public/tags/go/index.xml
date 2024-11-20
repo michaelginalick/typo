@@ -9,7 +9,7 @@
     <lastBuildDate>Wed, 13 Nov 2024 09:25:56 -0600</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>User defer in novel ways</title>
+      <title>Using defer in novel ways</title>
       <link>http://localhost:1313/posts/defer/</link>
       <pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
       <guid>http://localhost:1313/posts/defer/</guid>
