@@ -7,7 +7,7 @@ toc: false
 readTime: true
 autonumber: true
 math: false
-tags: ["go", "design patterns", "chain of responsibility"]
+tags: ["Go", "design patterns", "chain of responsibility"]
 showTags: true
 hideBackToTop: false
 ---

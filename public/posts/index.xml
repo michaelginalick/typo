@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Nov 2024 09:36:03 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 26 Dec 2024 17:30:58 -0600</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aws Input Transformations</title>
+      <link>http://localhost:1313/posts/aws-input-transformations/</link>
+      <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
+      <guid>http://localhost:1313/posts/aws-input-transformations/</guid>
+      <description>Using a simple AWS tool to improve local and cloud workflows</description>
+    </item>
     <item>
       <title>Opensearch Explorations</title>
       <link>http://localhost:1313/posts/opensearch-explorations/</link>

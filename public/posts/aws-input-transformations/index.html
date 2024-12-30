@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="Input transformers for more structured lambda development" />
+
+<title>
+    
+    Aws Input Transformations | Me
+    
+</title>
+
+<link rel="canonical" href="http://localhost:1313/posts/aws-input-transformations/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Me</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/aws-input-transformations/">Aws Input Transformations</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Aws Input Transformations</h1>
+    
+    <p class="single-summary">Using a simple AWS tool to improve local and cloud workflows</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-12-26T17:30:58-06:00">December 26, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      4 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="http://localhost:1313/tags/go/">#Go</a>
+    </span>
+    
+    
+    <span>
+      <a href="http://localhost:1313/tags/aws-lambda/">#AWS Lambda</a>
+    </span>
+    
+    
+    <span>
+      <a href="http://localhost:1313/tags/input-transformers/">#Input Transformers</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+
+  
+
+  <div class="single-content">
+    <p>For the past few years, I&rsquo;ve been working primarily in the AWS environment, specifically with AWS API Gateway, EventBridge, Lambda, and SQS. I won’t delve into SQS since a queue is a queue, and I don’t have much to offer in terms of advice—other than recommending processing in batches instead of one item at a time and enabling long polling. These two strategies will get you pretty far based on my experience.</p>
+<p>This post, however, is about a feature that, in my opinion, is essential for working with EventBridge and Lambda: <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-transform-target-input.html">Amazon EventBridge Input Transformations</a>.</p>
+<h1 id="why-use-input-transformers">Why Use Input Transformers?</h1>
+<p>I won’t go into the details of what an input transformer is or how to use it—the AWS documentation does a great job of explaining that. Instead, I’ll focus on why you should use them.</p>
+<p>When an event is consumed by a Lambda function, the <code>handler</code> function signature, without a transformer, might look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event <span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">string</span>]<span style="color:#fff;font-weight:bold">interface</span>{}) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	eventJSON, _ := json.MarshalIndent(event, <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;  &#34;</span>)
+</span></span><span style="display:flex;"><span>	fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;Event received: %s\n&#34;</span>, <span style="color:#fff;font-weight:bold">string</span>(eventJSON))
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	lambda.Start(handler)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The event is a map[string]interface{}. This doesn’t provide much information about the structure of the event being consumed. You could improve it slightly by defining a type for the event:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> EventBridgeEvent <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Version    <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;version&#34;`</span>
+</span></span><span style="display:flex;"><span>	ID         <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	DetailType <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;detail-type&#34;`</span>
+</span></span><span style="display:flex;"><span>	Source     <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;source&#34;`</span>
+</span></span><span style="display:flex;"><span>	Account    <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;account&#34;`</span>
+</span></span><span style="display:flex;"><span>	Time       <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;time&#34;`</span>
+</span></span><span style="display:flex;"><span>	Region     <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;region&#34;`</span>
+</span></span><span style="display:flex;"><span>	Resources  []<span style="color:#fff;font-weight:bold">string</span>               <span style="color:#0ff;font-weight:bold">`json:&#34;resources&#34;`</span>
+</span></span><span style="display:flex;"><span>	Detail     <span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">string</span>]<span style="color:#fff;font-weight:bold">interface</span>{} <span style="color:#0ff;font-weight:bold">`json:&#34;detail&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event EventBridgeEvent) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;Event received: %+v\n&#34;</span>, event)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	lambda.Start(handler)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is better, but notice how the Detail field is still a map[string]interface{}? In my experience, the Detail field typically contains the data that the Lambda logic relies on. This is where input transformers come into play—they allow you to take the raw event data and map it into something more structured and useful.</p>
+<h1 id="example-use-case">Example Use Case</h1>
+<p>Let’s say you have an event that fires when a database row is updated. The raw event might look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;version&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;14&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;7bf73129-1428-4cd3-a780-95db273d1602&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;detail-type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;DB Address change Notification&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;source&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;aws.ec2&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;account&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;123456789012&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;time&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;2015-11-11T21:29:54Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;region&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;us-east-1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;resources&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;arn:aws:ec2:us-east-1:123456789012:instance/i-abcd1111&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;detail&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;action&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;address changed&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;user_id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;112234321&#34;</span>,
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, the Lambda function only cares about two fields: the action (&ldquo;address changed&rdquo;) and the user_id. By using an input transformer, you can simplify the payload, sending only the relevant data to the Lambda in a predefined structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;action&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;address changed&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;user_id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;11nbd2a2s3eq4321&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And the updated function signature can now look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event json.RawMessage) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;Event received: %s\n&#34;</span>, <span style="color:#fff;font-weight:bold">string</span>(event))
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	lambda.Start(handler)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This may not seem like a significant change, but now you can define and validate the event structure within your application. For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Action  <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;action&#34;`</span>
+</span></span><span style="display:flex;"><span>	UserID  <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;user_id&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// implements the unmarshal interface for JSON conversions
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (a *Action) UnmarshalAction(action json.RawMessage) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// Validate the action here
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event json.RawMessage) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">var</span> action Action
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">if</span> err := action.UnmarshalAction(event); err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// do something with the action
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	lambda.Start(handler)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="benefits-of-this-approach">Benefits of This Approach</h1>
+<h2 id="improved-readability-and-maintainability">Improved Readability and Maintainability</h2>
+<p>With this small change, your codebase becomes cleaner. The payload is immediately validated and converted into a structured type, making it easier to work with than a map[string]interface{}.</p>
+<h2 id="enhanced-testing-and-local-development">Enhanced Testing and Local Development</h2>
+<p>Testing becomes much easier when working with structured JSON payloads. Instead of defining complex map[string]interface{} objects, you can use simple JSON files for testing.</p>
+<p>Here’s an example folder structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cmd/
+</span></span><span style="display:flex;"><span>  dev/
+</span></span><span style="display:flex;"><span>    test.json
+</span></span><span style="display:flex;"><span>    sample1.json
+</span></span><span style="display:flex;"><span>    sample2.json
+</span></span><span style="display:flex;"><span>    main.go
+</span></span></code></pre></div><p>Each JSON file represents a test case. You can edit these files easily to simulate different scenarios, both happy and unhappy paths.</p>
+<h2 id="simplified-cloud-testing">Simplified Cloud Testing</h2>
+<p>The same JSON payloads used locally can also be used in the AWS console for testing. This consistency makes debugging and validation much more straightforward.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Input transformers are a powerful tool for simplifying cloud and local workflows. They require minimal effort to set up and save significant time in the long run. With <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target">Terraform</a> support, you only need to define them once.</p>
+<p>In my team, we use this pattern in all the Lambda functions we maintain. It has made the codebase easier to maintain and has significantly improved the onboarding experience for new developers. Input transformers are a tool I highly recommend for anyone working with AWS Lambda.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/opensearch-explorations/">
+                        Opensearch Explorations
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

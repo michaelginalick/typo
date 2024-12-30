@@ -7,7 +7,7 @@ toc: false
 readTime: true
 autonumber: true
 math: false
-tags: ["builder pattern", "Golang", "functional options"]
+tags: ["builder pattern", "Go", "functional options"]
 showTags: true
 hideBackToTop: false
 ---

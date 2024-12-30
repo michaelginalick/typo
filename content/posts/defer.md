@@ -7,7 +7,7 @@ toc: false
 readTime: true
 autonumber: true
 math: false
-tags: ["go", "defer"]
+tags: ["Go", "defer"]
 showTags: true
 hideBackToTop: false
 ---
