@@ -1,7 +1,7 @@
 ---
 title: "Command Pattern"
 date: 2025-01-15T11:41:00-06:00
-summary: "Command Pattern"
+summary: "Using a simple pattern to coordinate actions"
 description: "Using a simple pattern to coordinate actions"
 toc: false
 readTime: true
