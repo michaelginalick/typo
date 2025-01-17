@@ -2,25 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/tags/command-pattern/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/command-pattern/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/design-patterns/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/go/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/aws-input-transformations/</loc>
     <lastmod>2024-12-26T17:30:58-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/aws-lambda/</loc>
     <lastmod>2024-12-26T17:30:58-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/go/</loc>
-    <lastmod>2024-12-26T17:30:58-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2024-12-26T17:30:58-06:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/input-transformers/</loc>
-    <lastmod>2024-12-26T17:30:58-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2024-12-26T17:30:58-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-12-26T17:30:58-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/aws-opensearch/</loc>
@@ -41,9 +50,6 @@
     <loc>http://localhost:1313/posts/chain-of-responsibility/</loc>
     <lastmod>2024-11-08T11:06:37-06:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/design-patterns/</loc>
-    <lastmod>2024-11-08T11:06:37-06:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/continuing-education/</loc>
     <lastmod>2024-08-09T00:00:00+00:00</lastmod>
   </url><url>
@@ -60,9 +66,6 @@
     <lastmod>2024-08-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/go-builder/</loc>
-    <lastmod>2024-08-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/golang/</loc>
     <lastmod>2024-08-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/about/</loc>

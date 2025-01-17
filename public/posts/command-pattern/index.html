@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="Using a simple pattern to coordinate actions" />
+
+<title>
+    
+    Command Pattern | Me
+    
+</title>
+
+<link rel="canonical" href="http://localhost:1313/posts/command-pattern/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Me</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/command-pattern/">Command Pattern</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Command Pattern</h1>
+    
+    <p class="single-summary">Command Pattern</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-01-15T11:41:00-06:00">January 15, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      7 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="http://localhost:1313/tags/go/">#Go</a>
+    </span>
+    
+    
+    <span>
+      <a href="http://localhost:1313/tags/design-patterns/">#Design Patterns</a>
+    </span>
+    
+    
+    <span>
+      <a href="http://localhost:1313/tags/command-pattern/">#Command Pattern</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+
+  
+
+  <div class="single-content">
+    <p>The <a href="https://en.wikipedia.org/wiki/Command_pattern">Command Pattern</a> is a well established design pattern. It has lots of use cases and the implementation is flexible is useful is many different situations. At a previous company, there were many proponents of an excellent ruby library called, <a href="https://github.com/adomokos/light-service">light-service</a>. If you look closely enough, this is one example implementation of the pattern.</p>
+<p>Generally speaking, any program you write is a command. Sometimes you want to do a simple thing like update a record in a database, and other times you need to coordinate a set of changes across many different services. The pattern lends itself to the latter use case. I was recently tasked with doing some coordinated updates, in which I found the command pattern to be very useful.</p>
+<p>I&rsquo;ve written previously about how much of my work involves using Lambda functions to consume events from an event bus. In this case, it is AWS EventBridge, but it could be swapped out for Kafka or even a queue. Lambdas are nice because, almost by definition, they are small, focused programs. They do one or two things without too much knowledge of the outside world. One of the higher-level patterns in the organization I work for is the concept of the write-back. Not exactly in the sense of caching, but in some ways, yes. I manage many different indices in OpenSearch, but only a few of them are exposed to outside clients. However, data needs to be synced across the exposed indices so clients see updated data.</p>
+<p>The data team at my current job runs a lot of processes that the indices I manage care about. When one such process completes, it places an event on the bridge, which subsequently invokes a Lambda to pull from one data store (in this case, Snowflake) and ingest the data into the correct OpenSearch index. Once the ingestion process is complete, the Lambda then syncs all the new data with current records in another index. At a high level, this program needs to:</p>
+<ol>
+<li>Pull data into a new Opensearch index (with the same alias).</li>
+<li>Swap the new and old indices.</li>
+<li>Process all the records across the external incides. This is basically a way to write the new data onto the correspnding document in another location.</li>
+</ol>
+<p>As this process ran in production over the course of a few weeks, we started to see CPU spikes on the OpenSearch cluster. After some digging, we found that these spikes happen almost exactly when the &ldquo;write-back&rdquo; process runs. After even more digging, I found this <a href="https://opensearch.org/blog/optimize-refresh-interval/">blog post</a> about refresh intervals and how they are used in Opensearch.</p>
+<p>OpenSearch is constantly running processes to sync data across all the nodes in the cluster. Because it uses an eventual consistency model, changes percolate through the nodes; they don&rsquo;t happen all at once like in a traditional RDB. This means when you add data to an index, changes will appear as quickly as possible throughout the entire system. However, these processes are not free. If you are making large sets of changes and have many clients asking for data, OpenSearch needs to manage all of this. As such, the CPU spikes during these update periods are due to OpenSearch syncing all the nodes in the cluster. To help alleviate these spikes, we want to update the refresh interval to be every 60 seconds during ingest periods, then when the process is complete, set it back to every 1 second.</p>
+<p>Ok. So now the program needs to do a few more things</p>
+<ol>
+<li>Pull data into a new Opensearch index (with the same alias).</li>
+<li>Swap the new and old indices.</li>
+<li>Set the refresh interval to 60 seconds on the index being written to.</li>
+<li>Process all the records across the external incides.</li>
+<li>Set the refresh interval back to 1 second when the records have been updated.</li>
+</ol>
+<p>One more caveat to this, is that if any one of these operations fail, we need to</p>
+<ol>
+<li>Ensure any new indices are deleted. Effectively rollback to the previous index.</li>
+<li>Set the refresh interval back to 1 second.</li>
+</ol>
+<p>After updating the requirements for this Lambda, the use case for the command pattern became clearer to me. Thankfully, Go makes it very easy to implement these kinds of patterns. Below I will show the outline I used to implement the Command Pattern using the example of a money transfer from one account to another.</p>
+<p>The first thing was to develop a contract in the form of an interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Command <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>  Call()
+</span></span><span style="display:flex;"><span>  Succeeded() <span style="color:#fff;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>  SetSucceeded(value <span style="color:#fff;font-weight:bold">bool</span>)
+</span></span><span style="display:flex;"><span>  Undo()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>You don&rsquo;t typically see a lot of getters and setters in Go, but this example aims for clarity and not necessarily the most idiomatic code. This interface is very simple; it basically has a Call method that will be in charge of invoking all the individual commands, two methods for determining the result of individual commands, and an Undo method. This should be called if any one operation fails.</p>
+<p>Now that we have a contract, there needs to be a way to aggregate this to accommodate many commands. Fortunately, we can embed interfaces in structs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>  commands []Command
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now that there is a contract via interface and a way to aggregate the interface, we can add some additional structs, some of which will implement the Command interface. For this, struct composition will be used, which is a great way to model data in Go. Using this technique, we can satisfy the Command interface without directly implementing it on every struct type.</p>
+<p>The first is a simple Account struct with a balance field. It will also have two methods for adding and subtracting.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BankAccount <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	balance <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccount) Deposit(amount <span style="color:#fff;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	b.balance += amount
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;Deposited&#34;</span>, amount, <span style="color:#0ff;font-weight:bold">&#34;\n, balance is now&#34;</span>, b.balance)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccount) Withdraw(amount <span style="color:#fff;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	b.balance -= amount
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;Withdrew&#34;</span>, amount, <span style="color:#0ff;font-weight:bold">&#34;\n, balance is now&#34;</span>, b.balance)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now a command can be introduced that acts on an account. This struct will implement the Command interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	Deposit Action = <span style="color:#fff;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	Withdraw
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BankAccountCommand <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	account   *BankAccount
+</span></span><span style="display:flex;"><span>	action    Action
+</span></span><span style="display:flex;"><span>	amount    <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	succeeded <span style="color:#fff;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccountCommand) SetSucceeded(value <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	b.succeeded = value
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccountCommand) Succeeded() <span style="color:#fff;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> b.succeeded
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccountCommand) Call() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> b.action {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> Deposit:
+</span></span><span style="display:flex;"><span>		b.account.Deposit(b.amount)
+</span></span><span style="display:flex;"><span>		b.succeeded = <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> Withdraw:
+</span></span><span style="display:flex;"><span>		b.account.Withdraw(b.amount)
+</span></span><span style="display:flex;"><span>    b.succeeded = <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BankAccountCommand) Undo() {
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;UNDO!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewBankAccountCommand(account *BankAccount, action Action, amount <span style="color:#fff;font-weight:bold">int</span>) *BankAccountCommand {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;BankAccountCommand{account: account, action: action, amount: amount}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>With this in place, there is a struct that manages itself, and one that manages the individual actions. This is where the CompositeCommand will come into play. By implementing the Command interface on the CompositeCommand struct, it allows for acting on multiple commands.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>  commands []Command
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *CompositeCommand) Succeeded() <span style="color:#fff;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, cmd := <span style="color:#fff;font-weight:bold">range</span> c.commands {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !cmd.Succeeded() {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *CompositeCommand) SetSucceeded(value <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, cmd := <span style="color:#fff;font-weight:bold">range</span> c.commands {
+</span></span><span style="display:flex;"><span>		cmd.SetSucceeded(value)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *CompositeCommand) Call() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, cmd := <span style="color:#fff;font-weight:bold">range</span> c.commands {
+</span></span><span style="display:flex;"><span>		cmd.Call()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *CompositeCommand) Undo() {
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;UNDO!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Finally, we can use the composite command and tie everything together by composing a transfer struct.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> TransferCommand <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	CompositeCommand
+</span></span><span style="display:flex;"><span>	from, to *BankAccount
+</span></span><span style="display:flex;"><span>	amount   <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m *TransferCommand) Call() {
+</span></span><span style="display:flex;"><span>	ok := <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, cmd := <span style="color:#fff;font-weight:bold">range</span> m.commands {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> ok {
+</span></span><span style="display:flex;"><span>			cmd.Call()
+</span></span><span style="display:flex;"><span>			ok = cmd.Succeeded()
+</span></span><span style="display:flex;"><span>		} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			cmd.SetSucceeded(<span style="color:#fff;font-weight:bold">false</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewTransferCommand(from *BankAccount, to *BankAccount, amount <span style="color:#fff;font-weight:bold">int</span>) *TransferCommand {
+</span></span><span style="display:flex;"><span>	c := &amp;TransferCommand{from: from, to: to, amount: amount}
+</span></span><span style="display:flex;"><span>	c.commands = <span style="color:#fff;font-weight:bold">append</span>(c.commands, NewBankAccountCommand(from, Withdraw, amount))
+</span></span><span style="display:flex;"><span>	c.commands = <span style="color:#fff;font-weight:bold">append</span>(c.commands, NewBankAccountCommand(to, Deposit, amount))
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> c
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If you&rsquo;re interested in running this code, you can do so <a href="https://go.dev/play/p/A4QVxygpRyl">here</a>. lthough this is a simple example, it employs powerful techniques such as struct and interface composition. These patterns help simplify a lot of the code I was struggling with as more and more requirements emerged.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/aws-input-transformations/">
+                        AWS Input Transformations
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

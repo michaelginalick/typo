@@ -6,14 +6,21 @@
     <description>Recent content in Home on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Dec 2024 17:30:58 -0600</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jan 2025 11:41:00 -0600</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Aws Input Transformations</title>
+      <title>Command Pattern</title>
+      <link>http://localhost:1313/posts/command-pattern/</link>
+      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
+      <guid>http://localhost:1313/posts/command-pattern/</guid>
+      <description>Command Pattern</description>
+    </item>
+    <item>
+      <title>AWS Input Transformations</title>
       <link>http://localhost:1313/posts/aws-input-transformations/</link>
       <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
       <guid>http://localhost:1313/posts/aws-input-transformations/</guid>
-      <description>Using a simple AWS tool to improve local and cloud workflows</description>
+      <description>Using a simple AWS tool to improve local and cloud development workflows</description>
     </item>
     <item>
       <title>Opensearch Explorations</title>
