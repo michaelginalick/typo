@@ -194,4 +194,4 @@ func NewTransferCommand(from *BankAccount, to *BankAccount, amount int) *Transfe
 	return c
 }
 ```
-If you're interested in running this code, you can do so [here](https://go.dev/play/p/A4QVxygpRyl). lthough this is a simple example, it employs powerful techniques such as struct and interface composition. These patterns help simplify a lot of the code I was struggling with as more and more requirements emerged.
+If you're interested in running this code, you can do so [here](https://go.dev/play/p/A4QVxygpRyl). Although this is a simple example, it employs powerful techniques such as struct and interface composition. These patterns help simplify a lot of the code I was struggling with as more and more requirements emerged.
