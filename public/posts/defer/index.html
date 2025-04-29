@@ -2,7 +2,7 @@
 <html lang="en-us"
   dir="ltr">
 
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52487&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width"><meta name="description" content="Using defers in novel ways" />
 
@@ -12,7 +12,7 @@
     
 </title>
 
-<link rel="canonical" href="http://localhost:1313/posts/defer/" />
+<link rel="canonical" href="http://localhost:52487/posts/defer/" />
 
 
 
@@ -135,12 +135,12 @@
   <div class="single-tags">
     
     <span>
-      <a href="http://localhost:1313/tags/go/">#Go</a>
+      <a href="http://localhost:52487/tags/go/">#Go</a>
     </span>
     
     
     <span>
-      <a href="http://localhost:1313/tags/defer/">#Defer</a>
+      <a href="http://localhost:52487/tags/defer/">#Defer</a>
     </span>
     
     
@@ -165,19 +165,19 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>resp, err := fetchSomeData()
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// handle error
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// handle error</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">defer</span> resp.Body.Close()
-</span></span><span style="display:flex;"><span>body, _ := io.ReadAll(res.Body) <span style="color:#007f7f">// ignore error
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>body, _ := io.ReadAll(res.Body) <span style="color:#007f7f">// ignore error</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> u User
 </span></span><span style="display:flex;"><span>err = json.UnMarshal(body, &amp;u)
 </span></span></code></pre></div><p>Or maybe it&rsquo;s used in the context of working with files.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>file, err := os.Open(<span style="color:#0ff;font-weight:bold">&#34;somefile.txt&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//handle error
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//handle error</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">defer</span> file.Close()
 </span></span></code></pre></div><p>In some ways, this routine approach is the essence of Go. There&rsquo;s nothing particularly interesting or novel about the code above; most languages have something similar. It&rsquo;s basically a way of saying, &ldquo;execute this statement when the function completes&rdquo;.</p>
 <p>However, this week, an unexpected use case for defer came up and made me see it in a new light. In a previous post, I mentioned a feature I was working on where the <a href="https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern">chain of responsibility</a> design pattern was a perfect fit. In this pattern, each function is responsible for doing whatever work it needs to do, as well as calling the next item in the chain. At first, a typical function in the chain looked something like this:</p>

@@ -6,14 +6,28 @@
     <description>Recent content in Home on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Jan 2025 11:41:00 -0600</lastBuildDate>
+    <lastBuildDate>Wed, 23 Apr 2025 16:11:13 -0500</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wiki Links</title>
+      <link>http://localhost:1313/posts/wiki-links/</link>
+      <pubDate>Wed, 23 Apr 2025 16:11:13 -0500</pubDate>
+      <guid>http://localhost:1313/posts/wiki-links/</guid>
+      <description>You have to look at it from all angles says the cubist judge from cubist jail</description>
+    </item>
+    <item>
+      <title>Day in the life</title>
+      <link>http://localhost:1313/posts/reading-code/</link>
+      <pubDate>Wed, 23 Apr 2025 14:37:31 -0500</pubDate>
+      <guid>http://localhost:1313/posts/reading-code/</guid>
+      <description>Navigating a career in software</description>
+    </item>
     <item>
       <title>Command Pattern</title>
       <link>http://localhost:1313/posts/command-pattern/</link>
       <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
       <guid>http://localhost:1313/posts/command-pattern/</guid>
-      <description>Command Pattern</description>
+      <description>Using a simple pattern to coordinate actions</description>
     </item>
     <item>
       <title>AWS Input Transformations</title>
@@ -62,7 +76,7 @@
       <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/about/</guid>
-      <description>Hello, my name is Mike. Currently, I work as a software developer in the Chicago area. My current interests are focused in Go, and working within the AWS infrastructure. Thankfully, that is what the majority of my working time entails. I have a graduate degree from the Georgia Institute of Technology in Computer Science although I&amp;rsquo;m not a computer scientist.&#xA;In my free time I enjoy running, biking and swimming. I also read occasionally but not as much as I should.</description>
+      <description>&lt;p&gt;Hello, my name is Mike. Currently, I work as a software developer in the Chicago area. My current interests are focused in Go, and working within the AWS infrastructure. Thankfully, that is what the majority of my working time entails. I have a graduate degree from the Georgia Institute of Technology in Computer Science although I&amp;rsquo;m not a computer scientist.&lt;/p&gt;&#xA;&lt;p&gt;In my free time I enjoy running, biking and swimming. I also read occasionally but not as much as I should.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

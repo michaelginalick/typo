@@ -142,7 +142,7 @@ func NewMoneyTransferCommand(from *BankAccount, to *BankAccount, amount int) *Mo
 func main() {
 	from := BankAccount{100}
 	to := BankAccount{0}
-	mtc := NewMoneyTransferCommand(&from, &to, 100) // try 1000
+	mtc := NewMoneyTransferCommand(&from, &to, 100)
 	mtc.Call()
 
 	if !mtc.Succeeded() {
