@@ -32,8 +32,6 @@ When I was going through the crawler example, I remembered a conversation I once
 
 For some reason, that conversation popped into my head, and it gave me an idea. I didn’t rewrite the program to prove or disprove the claim. Instead, I modified the crawler to tell me how many degrees of separation there are between two Wikipedia pages. Basically, a version of the infamous Six Degrees of Kevin Bacon.
 
-It was a fun project. I got to read code I didn’t write, figure out what mattered, change it in a meaningful way, and make it my own.
-
 The core functionality which I took (read: stole) from the book is as follows:
 
 ```golang
@@ -107,7 +105,9 @@ for i := 0; i < app.ThreadCount; i++ {
 
 This code will limit the currency to whatever is set by the app, loop through all the unseen links and add them to the queue to be processed. These examples are of course limited and incomplete. If you want to full examples, you can read the book!
 
-The larger point is that this is code you could find in any Go code base. Taking the time to understand it is time well spent. Taking it and making something out of it is also a fruitful exercise. Here is a link to what I made. It's a fun little program that serves no real purpose other than to make me happy. For example, how many wiki links is Canadian singer [Dan Behar](https://en.wikipedia.org/wiki/Dan_Bejar) from [Philosphy](https://en.wikipedia.org/wiki/Philosophy)? Keep in mind this is not the shortest path between the two, just a path. Regardless, let's find out!
+The larger point is that this is code you could find in any Go code base. Taking the time to understand it is time well spent. Taking it and making something out of it is also a fruitful exercise. It was a fun project. I got to read code I didn’t write, figure out what mattered, change it in a meaningful way, and make it my own.
+
+Here is a link to what I made. It's a fun little program that serves no real purpose other than to make me happy. For example, how many wiki links is Canadian singer [Dan Behar](https://en.wikipedia.org/wiki/Dan_Bejar) from [Philosphy](https://en.wikipedia.org/wiki/Philosophy)? Keep in mind this is not the shortest path between the two, just a path. Regardless, let's find out!
 
 ```bash
 ./main -sink https://en.wikipedia.org/wiki/Philosophy -source https://en.wikipedia.org/wiki/Dan_Bejar
@@ -117,4 +117,6 @@ The larger point is that this is code you could find in any Go code base. Taking
 FOUND THE LINK IN count=33392
 ```
 
-You can find the project [here](https://github.com/michaelginalick/wiki-links). Feel free to try it yourself. Keep in mind that these requests are hitting wikipedia and there is a real chance they block your IP address if you abuse their services. Also, please consider donating to [wikipedia](https://donate.wikimedia.org/w/index.php?title=Special:LandingPage&country=US&uselang=en&wmf_medium=spontaneous&wmf_source=fr-redir&wmf_campaign=spontaneous) to keep this amazing resource free and available for everyone.
+You can find the project [here](https://github.com/michaelginalick/wiki-links). Feel free to try it yourself. Keep in mind that these requests are hitting wikipedia and there is a real chance they block your IP address if you abuse their services. 
+
+Also, please consider donating to [wikipedia](https://donate.wikimedia.org/w/index.php?title=Special:LandingPage&country=US&uselang=en&wmf_medium=spontaneous&wmf_source=fr-redir&wmf_campaign=spontaneous) to keep this amazing resource free and available for everyone.
