@@ -2,115 +2,122 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Me</title>
-    <link>http://localhost:52487/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Apr 2025 16:11:13 -0500</lastBuildDate>
-    <atom:link href="http://localhost:52487/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Cyclic Graph, Golang, Wikipedia</title>
-      <link>http://localhost:52487/tags/cyclic-graph-golang-wikipedia/</link>
-      <pubDate>Wed, 23 Apr 2025 16:11:13 -0500</pubDate>
-      <guid>http://localhost:52487/tags/cyclic-graph-golang-wikipedia/</guid>
+      <title>Channels</title>
+      <link>http://localhost:1313/tags/channels/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/channels/</guid>
       <description></description>
     </item>
     <item>
-      <title>The Go Programming Language</title>
-      <link>http://localhost:52487/tags/the-go-programming-language/</link>
-      <pubDate>Wed, 23 Apr 2025 16:11:13 -0500</pubDate>
-      <guid>http://localhost:52487/tags/the-go-programming-language/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Developer Not AI</title>
-      <link>http://localhost:52487/tags/developer-not-ai/</link>
-      <pubDate>Wed, 23 Apr 2025 14:37:31 -0500</pubDate>
-      <guid>http://localhost:52487/tags/developer-not-ai/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Command Pattern</title>
-      <link>http://localhost:52487/tags/command-pattern/</link>
-      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:52487/tags/command-pattern/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Design Patterns</title>
-      <link>http://localhost:52487/tags/design-patterns/</link>
-      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:52487/tags/design-patterns/</guid>
+      <title>Concurrency</title>
+      <link>http://localhost:1313/tags/concurrency/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/concurrency/</guid>
       <description></description>
     </item>
     <item>
       <title>Go</title>
-      <link>http://localhost:52487/tags/go/</link>
+      <link>http://localhost:1313/tags/go/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/go/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cyclic Graph, Golang, Wikipedia</title>
+      <link>http://localhost:1313/tags/cyclic-graph-golang-wikipedia/</link>
+      <pubDate>Wed, 23 Apr 2025 16:11:13 -0500</pubDate>
+      <guid>http://localhost:1313/tags/cyclic-graph-golang-wikipedia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>The Go Programming Language</title>
+      <link>http://localhost:1313/tags/the-go-programming-language/</link>
+      <pubDate>Wed, 23 Apr 2025 16:11:13 -0500</pubDate>
+      <guid>http://localhost:1313/tags/the-go-programming-language/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Command Pattern</title>
+      <link>http://localhost:1313/tags/command-pattern/</link>
       <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:52487/tags/go/</guid>
+      <guid>http://localhost:1313/tags/command-pattern/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Design Patterns</title>
+      <link>http://localhost:1313/tags/design-patterns/</link>
+      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
+      <guid>http://localhost:1313/tags/design-patterns/</guid>
       <description></description>
     </item>
     <item>
       <title>AWS Lambda</title>
-      <link>http://localhost:52487/tags/aws-lambda/</link>
+      <link>http://localhost:1313/tags/aws-lambda/</link>
       <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
-      <guid>http://localhost:52487/tags/aws-lambda/</guid>
+      <guid>http://localhost:1313/tags/aws-lambda/</guid>
       <description></description>
     </item>
     <item>
       <title>Input Transformers</title>
-      <link>http://localhost:52487/tags/input-transformers/</link>
+      <link>http://localhost:1313/tags/input-transformers/</link>
       <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
-      <guid>http://localhost:52487/tags/input-transformers/</guid>
+      <guid>http://localhost:1313/tags/input-transformers/</guid>
       <description></description>
     </item>
     <item>
       <title>AWS Opensearch</title>
-      <link>http://localhost:52487/tags/aws-opensearch/</link>
+      <link>http://localhost:1313/tags/aws-opensearch/</link>
       <pubDate>Wed, 20 Nov 2024 09:36:03 -0600</pubDate>
-      <guid>http://localhost:52487/tags/aws-opensearch/</guid>
+      <guid>http://localhost:1313/tags/aws-opensearch/</guid>
       <description></description>
     </item>
     <item>
       <title>Defer</title>
-      <link>http://localhost:52487/tags/defer/</link>
+      <link>http://localhost:1313/tags/defer/</link>
       <pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
-      <guid>http://localhost:52487/tags/defer/</guid>
+      <guid>http://localhost:1313/tags/defer/</guid>
       <description></description>
     </item>
     <item>
       <title>Chain of Responsibility</title>
-      <link>http://localhost:52487/tags/chain-of-responsibility/</link>
+      <link>http://localhost:1313/tags/chain-of-responsibility/</link>
       <pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
-      <guid>http://localhost:52487/tags/chain-of-responsibility/</guid>
+      <guid>http://localhost:1313/tags/chain-of-responsibility/</guid>
       <description></description>
     </item>
     <item>
       <title>Continuing Education</title>
-      <link>http://localhost:52487/tags/continuing-education/</link>
+      <link>http://localhost:1313/tags/continuing-education/</link>
       <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:52487/tags/continuing-education/</guid>
+      <guid>http://localhost:1313/tags/continuing-education/</guid>
       <description></description>
     </item>
     <item>
       <title>Georgia Institute of Technology</title>
-      <link>http://localhost:52487/tags/georgia-institute-of-technology/</link>
+      <link>http://localhost:1313/tags/georgia-institute-of-technology/</link>
       <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:52487/tags/georgia-institute-of-technology/</guid>
+      <guid>http://localhost:1313/tags/georgia-institute-of-technology/</guid>
       <description></description>
     </item>
     <item>
       <title>Builder Pattern</title>
-      <link>http://localhost:52487/tags/builder-pattern/</link>
+      <link>http://localhost:1313/tags/builder-pattern/</link>
       <pubDate>Thu, 08 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:52487/tags/builder-pattern/</guid>
+      <guid>http://localhost:1313/tags/builder-pattern/</guid>
       <description></description>
     </item>
     <item>
       <title>Functional Options</title>
-      <link>http://localhost:52487/tags/functional-options/</link>
+      <link>http://localhost:1313/tags/functional-options/</link>
       <pubDate>Thu, 08 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:52487/tags/functional-options/</guid>
+      <guid>http://localhost:1313/tags/functional-options/</guid>
       <description></description>
     </item>
   </channel>
