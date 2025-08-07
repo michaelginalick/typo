@@ -82,11 +82,11 @@ func (m DoubleAgeModifier) Handle() {
 func main() {
   person := NewPerson(10)
 
-	root := NewPersonModifier(person)
-	root.Add(NewAgeModifier(person))
-	root.Add(NewAgeModifier(person))
+  root := NewPersonModifier(person)
+  root.Add(NewAgeModifier(person))
+  root.Add(NewAgeModifier(person))
 
-	root.Handle()
+  root.Handle()
 
   fmt.Println("Age %d", person.Age)
 }

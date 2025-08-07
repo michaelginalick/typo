@@ -29,7 +29,7 @@ Still, it got me thinking about my own understanding of channels and concurrent 
 
 With all that said, I don’t use channels very often. In fact, I could probably count on both hands the number of times I’ve reached for them. Yes, they were all in the context of concurrent programs, and yes—maybe they were "wrong." Actually, I’m not sure about that last part. I hope not, but there's always a possibility.
 
-There are lots of examples on how to use channels - they are just values after all. I am thinking of one such [example](https://go.dev/blog/pipelines) that I've read many times. This post is often sited as a must for anyone wanting to get started with channels. I've never written a pipeline so this doesn't quite hit home. 
+There are lots of examples on how to use channels - they are just values after all. I am thinking of one such [example](https://go.dev/blog/pipelines) that I've read many times. This post is often cited as a must for anyone wanting to get started with channels. I've never written a pipeline so this doesn't quite hit home. 
 
 What made channels click for me was to take an existing piece of concurrent code and modify it to use channels instead of a mutex. Below is a somewhat simplified version:
 
@@ -159,7 +159,7 @@ In a perfect world, this implementation is fine. Once all functions are processe
 
 To avoid goroutine leaks, we need a way to signal cancellation. Imagine a scenario where your function is processing work, but the server receives a shutdown signal.
 
-Currently, there’s no way for your function to know that. We need a mechanism to “stop short.” The typical tool for this is the [context package](https://pkg.go.dev/context). In general, any function that spawns goroutines should accept a context.Context as its first parameter. Using the `Parallelize` nction from earlier, the updated signature becomes: `Parallelize(ctx context.Context, jobs ...func() error)`
+Currently, there’s no way for your function to know that. We need a mechanism to “stop short.” The typical tool for this is the [context package](https://pkg.go.dev/context). In general, any function that spawns goroutines should accept a context.Context as its first parameter. Using the `Parallelize` function from earlier, the updated signature becomes: `Parallelize(ctx context.Context, jobs ...func() error)`
 
 
 This allows the server to signal cancellation, and for jobs to respond accordingly. Here's the updated implementation using `select`:
