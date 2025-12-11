@@ -6,8 +6,36 @@
     <description>Recent content in Tags on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Dec 2025 16:34:06 -0600</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Command Patter</title>
+      <link>http://localhost:1313/tags/command-patter/</link>
+      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+      <guid>http://localhost:1313/tags/command-patter/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Design Patterns</title>
+      <link>http://localhost:1313/tags/design-patterns/</link>
+      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+      <guid>http://localhost:1313/tags/design-patterns/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>First Class Functions</title>
+      <link>http://localhost:1313/tags/first-class-functions/</link>
+      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+      <guid>http://localhost:1313/tags/first-class-functions/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Go</title>
+      <link>http://localhost:1313/tags/go/</link>
+      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+      <guid>http://localhost:1313/tags/go/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Channels</title>
       <link>http://localhost:1313/tags/channels/</link>
@@ -20,13 +48,6 @@
       <link>http://localhost:1313/tags/concurrency/</link>
       <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/concurrency/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Go</title>
-      <link>http://localhost:1313/tags/go/</link>
-      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/go/</guid>
       <description></description>
     </item>
     <item>
@@ -48,13 +69,6 @@
       <link>http://localhost:1313/tags/command-pattern/</link>
       <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
       <guid>http://localhost:1313/tags/command-pattern/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Design Patterns</title>
-      <link>http://localhost:1313/tags/design-patterns/</link>
-      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:1313/tags/design-patterns/</guid>
       <description></description>
     </item>
     <item>

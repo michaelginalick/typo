@@ -23,7 +23,7 @@ mistakes that can cause a concurrent program to deadlock, crash, and so on.
 It’s not a tool we deploy lightly, and it wouldn’t be worth the extra
 complexity just to iterate over a slice.
 
-If consulting is your line of work, it probably behooves you to write statements like these. By all accounts, the folks at Bitfield are very knowledgeable, and I enjoy their explanations and examples. But is it presumptuous to say that all concurrent programs are wrong? Probably. I guess it depends on what you mean by “wrong.”
+If consulting is your line of work, it probably behooves you to write statements like these. By all accounts, the folks at Bitfield are very knowledgeable, and I enjoy their explanations and examples. But is it presumptuous to say that all concurrent programs are incorrect? Probably? I guess it depends on what you mean by “wrong.”
 
 Still, it got me thinking about my own understanding of channels and concurrent programming. Having used Go (and other languages) for a while now, I’d like to think I more or less know what I’m doing. I’m certainly not the best programmer you’ll meet, but I like to think I fall somewhere in the fat part of the bell curve.
 
@@ -46,26 +46,6 @@ import (
 
 // Parallelize run jobs in parallel
 func Parallelize(jobs ...func() error) []error {
-	var wg sync.WaitGroup
-	var mu sync.Mutex
-	errs := []error{}
-	for _, job := range jobs {
-		wg.Add(1)
-		go func(j func() error) {
-			defer wg.Done()
-            mu.Lock()
-			defer mu.Unlock()
-
-			err := j()
-			if err != nil {
-				errs = append(errs, err)
-			}
-
-		}(job)
-	}
-	wg.Wait()
-
-	return errs
 }
 
 func main() {
