@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS on Me</title>
+    <link>https://michaelginalick.com/tags/aws/</link>
+    <description>Recent content in AWS on Me</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 12 Feb 2026 17:58:55 -0600</lastBuildDate>
+    <atom:link href="https://michaelginalick.com/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aws Certifications</title>
+      <link>https://michaelginalick.com/posts/aws-certification/</link>
+      <pubDate>Thu, 12 Feb 2026 17:58:55 -0600</pubDate>
+      <guid>https://michaelginalick.com/posts/aws-certification/</guid>
+      <description>Certifications for resume padding</description>
+    </item>
+  </channel>
+</rss>

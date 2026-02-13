@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AWS Lambda on Me</title>
-    <link>http://localhost:1313/tags/aws-lambda/</link>
+    <link>https://michaelginalick.com/tags/aws-lambda/</link>
     <description>Recent content in AWS Lambda on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 26 Dec 2024 17:30:58 -0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/aws-lambda/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://michaelginalick.com/tags/aws-lambda/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AWS Input Transformations</title>
-      <link>http://localhost:1313/posts/aws-input-transformations/</link>
+      <link>https://michaelginalick.com/posts/aws-input-transformations/</link>
       <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
-      <guid>http://localhost:1313/posts/aws-input-transformations/</guid>
+      <guid>https://michaelginalick.com/posts/aws-input-transformations/</guid>
       <description>Using a simple AWS tool to improve local and cloud development workflows</description>
     </item>
   </channel>

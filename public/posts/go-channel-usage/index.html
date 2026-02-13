@@ -2,7 +2,7 @@
 <html lang="en-us"
   dir="ltr">
 
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width"><meta name="description" content="Understanding where and how to use channels correctly" />
 
@@ -12,7 +12,7 @@
     
 </title>
 
-<link rel="canonical" href="http://localhost:1313/posts/go-channel-usage/" />
+<link rel="canonical" href="https://michaelginalick.com/posts/go-channel-usage/" />
 
 
 
@@ -26,6 +26,8 @@
 
 
 <link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
 
 
 
@@ -135,17 +137,17 @@
   <div class="single-tags">
     
     <span>
-      <a href="http://localhost:1313/tags/concurrency/">#Concurrency</a>
+      <a href="https://michaelginalick.com/tags/concurrency/">#Concurrency</a>
     </span>
     
     
     <span>
-      <a href="http://localhost:1313/tags/go/">#Go</a>
+      <a href="https://michaelginalick.com/tags/go/">#Go</a>
     </span>
     
     
     <span>
-      <a href="http://localhost:1313/tags/channels/">#Channels</a>
+      <a href="https://michaelginalick.com/tags/channels/">#Channels</a>
     </span>
     
     
@@ -186,8 +188,26 @@ complexity just to iterate over a slice.</p></blockquote>
 </span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;time&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">// Parallelize run jobs in parallel</span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Parallelize(jobs ...<span style="color:#fff;font-weight:bold">func</span>() <span style="color:#fff;font-weight:bold">error</span>) []<span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> wg sync.WaitGroup
+</span></span><span style="display:flex;"><span>	errs := []<span style="color:#fff;font-weight:bold">error</span>{}
+</span></span><span style="display:flex;"><span>	mu := sync.Mutex{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, j := <span style="color:#fff;font-weight:bold">range</span> jobs {
+</span></span><span style="display:flex;"><span>		wg.Add(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">go</span> <span style="color:#fff;font-weight:bold">func</span>(j <span style="color:#fff;font-weight:bold">func</span>() <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">defer</span> wg.Done()
+</span></span><span style="display:flex;"><span>			err := j()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				mu.Lock()
+</span></span><span style="display:flex;"><span>				errs = <span style="color:#fff;font-weight:bold">append</span>(errs, err)
+</span></span><span style="display:flex;"><span>				mu.Unlock()
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}(j)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	wg.Wait()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> errs
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
@@ -311,7 +331,6 @@ complexity just to iterate over a slice.</p></blockquote>
 </span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;time&#34;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">// Parallelize run jobs in parallel</span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Parallelize(ctx context.Context, jobs ...<span style="color:#fff;font-weight:bold">func</span>() <span style="color:#fff;font-weight:bold">error</span>) &lt;-<span style="color:#fff;font-weight:bold">chan</span> <span style="color:#fff;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> wg sync.WaitGroup
 </span></span><span style="display:flex;"><span>	errs := <span style="color:#fff;font-weight:bold">make</span>(<span style="color:#fff;font-weight:bold">chan</span> <span style="color:#fff;font-weight:bold">error</span>, <span style="color:#fff;font-weight:bold">len</span>(jobs))

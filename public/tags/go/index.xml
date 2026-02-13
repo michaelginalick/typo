@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Go on Me</title>
-    <link>http://localhost:1313/tags/go/</link>
+    <link>https://michaelginalick.com/tags/go/</link>
     <description>Recent content in Go on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 09 Dec 2025 16:34:06 -0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://michaelginalick.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Command Pattern Revisited</title>
-      <link>http://localhost:1313/posts/command-pattern-revisited/</link>
+      <link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
       <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
-      <guid>http://localhost:1313/posts/command-pattern-revisited/</guid>
+      <guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
       <description>An update to a previous post</description>
     </item>
     <item>
       <title>Go channel usage</title>
-      <link>http://localhost:1313/posts/go-channel-usage/</link>
+      <link>https://michaelginalick.com/posts/go-channel-usage/</link>
       <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/go-channel-usage/</guid>
+      <guid>https://michaelginalick.com/posts/go-channel-usage/</guid>
       <description>Working from a mutex to a channel</description>
     </item>
     <item>
       <title>Command Pattern</title>
-      <link>http://localhost:1313/posts/command-pattern/</link>
+      <link>https://michaelginalick.com/posts/command-pattern/</link>
       <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:1313/posts/command-pattern/</guid>
+      <guid>https://michaelginalick.com/posts/command-pattern/</guid>
       <description>Using a simple pattern to coordinate actions</description>
     </item>
     <item>
       <title>AWS Input Transformations</title>
-      <link>http://localhost:1313/posts/aws-input-transformations/</link>
+      <link>https://michaelginalick.com/posts/aws-input-transformations/</link>
       <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
-      <guid>http://localhost:1313/posts/aws-input-transformations/</guid>
+      <guid>https://michaelginalick.com/posts/aws-input-transformations/</guid>
       <description>Using a simple AWS tool to improve local and cloud development workflows</description>
     </item>
     <item>
       <title>Using defer in novel ways</title>
-      <link>http://localhost:1313/posts/defer/</link>
+      <link>https://michaelginalick.com/posts/defer/</link>
       <pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
-      <guid>http://localhost:1313/posts/defer/</guid>
+      <guid>https://michaelginalick.com/posts/defer/</guid>
       <description>Using common language features in novel ways</description>
     </item>
     <item>
       <title>Chain of Responsibility</title>
-      <link>http://localhost:1313/posts/chain-of-responsibility/</link>
+      <link>https://michaelginalick.com/posts/chain-of-responsibility/</link>
       <pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
-      <guid>http://localhost:1313/posts/chain-of-responsibility/</guid>
+      <guid>https://michaelginalick.com/posts/chain-of-responsibility/</guid>
       <description>Utilizing established design patterns</description>
     </item>
     <item>
       <title>Go builder pattern</title>
-      <link>http://localhost:1313/posts/go-builder/</link>
+      <link>https://michaelginalick.com/posts/go-builder/</link>
       <pubDate>Thu, 08 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/go-builder/</guid>
+      <guid>https://michaelginalick.com/posts/go-builder/</guid>
       <description>A simple use case for functional options</description>
     </item>
   </channel>

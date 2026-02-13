@@ -2,17 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Command Pattern on Me</title>
-    <link>http://localhost:1313/tags/command-pattern/</link>
+    <link>https://michaelginalick.com/tags/command-pattern/</link>
     <description>Recent content in Command Pattern on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Jan 2025 11:41:00 -0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/command-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Dec 2025 16:34:06 -0600</lastBuildDate>
+    <atom:link href="https://michaelginalick.com/tags/command-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Command Pattern Revisited</title>
+      <link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
+      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+      <guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
+      <description>An update to a previous post</description>
+    </item>
     <item>
       <title>Command Pattern</title>
-      <link>http://localhost:1313/posts/command-pattern/</link>
+      <link>https://michaelginalick.com/posts/command-pattern/</link>
       <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>http://localhost:1313/posts/command-pattern/</guid>
+      <guid>https://michaelginalick.com/posts/command-pattern/</guid>
       <description>Using a simple pattern to coordinate actions</description>
     </item>
   </channel>

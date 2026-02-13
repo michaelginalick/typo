@@ -44,8 +44,26 @@ import (
 	"time"
 )
 
-// Parallelize run jobs in parallel
 func Parallelize(jobs ...func() error) []error {
+	var wg sync.WaitGroup
+	errs := []error{}
+	mu := sync.Mutex{}
+
+	for _, j := range jobs {
+		wg.Add(1)
+		go func(j func() error) {
+			defer wg.Done()
+			err := j()
+
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, err)
+				mu.Unlock()
+			}
+		}(j)
+	}
+	wg.Wait()
+	return errs
 }
 
 func main() {
@@ -194,7 +212,6 @@ import (
 	"time"
 )
 
-// Parallelize run jobs in parallel
 func Parallelize(ctx context.Context, jobs ...func() error) <-chan error {
 	var wg sync.WaitGroup
 	errs := make(chan error, len(jobs))

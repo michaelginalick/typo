@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>First Class Functions on Me</title>
-    <link>http://localhost:1313/tags/first-class-functions/</link>
+    <link>https://michaelginalick.com/tags/first-class-functions/</link>
     <description>Recent content in First Class Functions on Me</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 09 Dec 2025 16:34:06 -0600</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/first-class-functions/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://michaelginalick.com/tags/first-class-functions/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Command Pattern Revisited</title>
-      <link>http://localhost:1313/posts/command-pattern-revisited/</link>
+      <link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
       <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
-      <guid>http://localhost:1313/posts/command-pattern-revisited/</guid>
+      <guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
       <description>An update to a previous post</description>
     </item>
   </channel>
