@@ -2,7 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/command-patter/</loc>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-02-12T17:58:55-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2026-02-12T17:58:55-06:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/command-pattern/</loc>
     <lastmod>2025-12-09T16:34:06-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/command-pattern-revisited/</loc>
@@ -15,12 +21,6 @@
     <lastmod>2025-12-09T16:34:06-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/go/</loc>
-    <lastmod>2025-12-09T16:34:06-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-12-09T16:34:06-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-12-09T16:34:06-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
@@ -45,9 +45,6 @@
     <lastmod>2025-04-23T16:11:13-05:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/command-pattern/</loc>
-    <lastmod>2025-01-15T11:41:00-06:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/command-pattern/</loc>
     <lastmod>2025-01-15T11:41:00-06:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/aws-input-transformations/</loc>
