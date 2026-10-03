@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="LLMs and learning should not be mutually exclusive" />
+
+<title>
+    
+    Continuing to Learn | Me
+    
+</title>
+
+<link rel="canonical" href="https://michaelginalick.com/posts/continuing-to-learn/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">Me</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/continuing-to-learn/">Continuing to Learn</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Continuing to Learn</h1>
+    
+    <p class="single-summary">Is spending time learning to become a better developer still worth it?</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2026-10-02T15:20:23-05:00">October 2, 2026</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      5 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://michaelginalick.com/tags/go/">#Go</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://michaelginalick.com/tags/ai/">#AI</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+
+  
+
+  <div class="single-content">
+    <p><em>I want to acknowledge that the below is geared towards business logic and the use of AI. Business logic has the luxury of being relatively simple and also unimportant. I mean, sure, if your program panics maybe someone gets their delivery one day later than it would have otherwise.</em></p>
+<p>In Noah Lawson&rsquo;s excellent post <a href="https://nolanlawson.com/2026/03/22/the-diminished-art-of-coding/">&ldquo;The dimished art of coding&rdquo;</a> he states that what was once a creative form of expression is now dimished. Many people consider Donald Knuth&rsquo;s &ldquo;The Art of Computer Programming&rdquo; tantamount to a holy text. Even the name suggests creative expression. In the interest of transparency, I&rsquo;ve never even pretended to read the TAOCP series for many reasons, the most of which is that it far exceeded my intellectual ceiling.</p>
+<p>The reason I bring these items up is to acknowledge the fact that there has always been this tension in software development. Some consider it a craft, always striving to find better, more beautiful, efficient ways to do something. However, if you are employed as a software developer your job is to produce functioning code, not make art or develop your craft.</p>
+<p>This idea was put rather bluntly by a co-worker of mine. He&rsquo;s a lead on a project I work on and what he said can be summarized as: Your job has alwys been to produce code. Whatever bells and whistles come with that are ancillary and largely unimportant. At first, I was dismissive of this. I mean, what he does is write code, what I do is much more than that. Or is it? The answer to that is a resounding No.</p>
+<p>Of course, with the advent of LLMs it&rsquo;s really not even up for debate anymore. If you want to stay employed, you need to produce code. With LLMs it&rsquo;s not even a matter of not knowing how to do something. Before, one could at least have the time buffer of needing time to research. That is not the case any longer. If you can describe the functionality, the LLM can do the rest.</p>
+<p>So where does that leave things?</p>
+<p>No one has been more guilty of playing the &ldquo;software is a craft&rdquo; card than me. Is software no longer a craft? In the professional world, yes, that concept no longer exists. No one cares if your code is clean or spaghetti. In fact, now the only thing that matters is that the AI agent can access your code. It will tell you what is wrong and won&rsquo;t bother you with patterns and abstractions. The best part is that when the spaghetti code needs to be modified in some way, the agent will do it, and more than likely do it correctly. Many would consider this a good thing! You no longer need to worry about understanding or fear touching some brittle bit of code.</p>
+<p>But you can and should continue learning. LLMs and learning are not mutually exclusive. In fact, one could argue that we now have access to possibly the greatest learning tool in all of human existence. By way of example, in a previous post I wrote about the <a href="https://michaelginalick.pages.dev/posts/chain-of-responsibility/">&ldquo;Chain of Responsibility&rdquo; pattern</a>. The pattern was lifted almost verbatium from an excellent Udemy course I took, called <a href="https://www.udemy.com/course/design-patterns-go/">Design Patterns In Go</a>.</p>
+<p>It is almost shameful how much this course helped me and how much I took (read: stole) from it. At the time, I was writing what turned out to be a mini ETL pipeline in Go and it was not going well. Taking what I learned from this course almost single handedly turned that project around. It is hard to quantify how much this course benefited me.</p>
+<p>However, even with the patterns I took from the course there still existed warts in the design. After leaving that job, I couldn&rsquo;t let it go. I wanted to make the project better. One obvious flaw with the design is how every new rule needed a bunch of boiler plate code. I think there was something like 4 individual things needed per transformation rule. Of course, this is fine with a few rules, but as more and more rules were added it became cumbersome to continue adding all the set up code.</p>
+<p>But the core design was very good. So good, that I extracted it into an open source package. Upon doing so, I asked Claude for a review. Of course, it told me all the short comings and how it violated the DRY principle. Many of the flaws it found were things I expected. It gave me some good suggestions and other not so good suggestions. It optimized the design beyond what is reasonable - basically sacraficed readability for speed that is not needed. But in the end, it did come up with an overall better, more flexible design and API.</p>
+<p>Obviously, this example is a simple example. If you ask AI to write the Chain of Responsibility pattern in Go, I promise it will look very different from what is in this library. I tried it! Whether that is a good or bad thing is up to the individual. In this instance I used my knowledge, which I gathered from another human being and filtered it through my existing experience to make something useful; to solve a problem.</p>
+<p>If I didn&rsquo;t know about this pattern or seek to expand my skillset via Udemy, I woudn&rsquo;t have learned anything. I&rsquo;d have the same skills I had previously. The project would have continued working but it would have been less good in almost every area.</p>
+<p>All this is to say, as software moves more into managing agentic code, what you know is still the limiting factor. That part has not changed. A developer who spends time learning will still produce better output, even if that output is done by an agent. Software can still be as much of an art or craft as it has ever been. As Lawson states in his post, the craft aspect is still present; it&rsquo;s just different now.</p>
+<p>You can find the <a href="https://github.com/michaelginalick/go-chain">package</a> here if you&rsquo;re curious.</p>
+
+    
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/ai-and-knowledge/">
+                        Knowledge in the age of AI
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

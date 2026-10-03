@@ -1,68 +1,80 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Go on Me</title>
-    <link>https://michaelginalick.com/tags/go/</link>
-    <description>Recent content in Go on Me</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 20 Feb 2026 12:00:55 -0600</lastBuildDate>
-    <atom:link href="https://michaelginalick.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Knowledge in the age of AI</title>
-      <link>https://michaelginalick.com/posts/ai-and-knowledge/</link>
-      <pubDate>Fri, 20 Feb 2026 12:00:55 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/ai-and-knowledge/</guid>
-      <description>Endless content</description>
-    </item>
-    <item>
-      <title>Command Pattern Revisited</title>
-      <link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
-      <pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
-      <description>An update to a previous post</description>
-    </item>
-    <item>
-      <title>Go channel usage</title>
-      <link>https://michaelginalick.com/posts/go-channel-usage/</link>
-      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://michaelginalick.com/posts/go-channel-usage/</guid>
-      <description>Working from a mutex to a channel</description>
-    </item>
-    <item>
-      <title>Command Pattern</title>
-      <link>https://michaelginalick.com/posts/command-pattern/</link>
-      <pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/command-pattern/</guid>
-      <description>Using a simple pattern to coordinate actions</description>
-    </item>
-    <item>
-      <title>AWS Input Transformations</title>
-      <link>https://michaelginalick.com/posts/aws-input-transformations/</link>
-      <pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/aws-input-transformations/</guid>
-      <description>Using a simple AWS tool to improve local and cloud development workflows</description>
-    </item>
-    <item>
-      <title>Using defer in novel ways</title>
-      <link>https://michaelginalick.com/posts/defer/</link>
-      <pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/defer/</guid>
-      <description>Using common language features in novel ways</description>
-    </item>
-    <item>
-      <title>Chain of Responsibility</title>
-      <link>https://michaelginalick.com/posts/chain-of-responsibility/</link>
-      <pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
-      <guid>https://michaelginalick.com/posts/chain-of-responsibility/</guid>
-      <description>Utilizing established design patterns</description>
-    </item>
-    <item>
-      <title>Go builder pattern</title>
-      <link>https://michaelginalick.com/posts/go-builder/</link>
-      <pubDate>Thu, 08 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://michaelginalick.com/posts/go-builder/</guid>
-      <description>A simple use case for functional options</description>
-    </item>
-  </channel>
+	<channel>
+		<title>Go on Me</title>
+		<link>https://michaelginalick.com/tags/go/</link>
+		<description>Recent content in Go on Me</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 15:20:23 -0500</lastBuildDate>
+		
+			<atom:link href="https://michaelginalick.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Continuing to Learn</title>
+				<link>https://michaelginalick.com/posts/continuing-to-learn/</link>
+				<pubDate>Fri, 02 Oct 2026 15:20:23 -0500</pubDate>
+				<guid>https://michaelginalick.com/posts/continuing-to-learn/</guid>
+				<description>Is spending time learning to become a better developer still worth it?</description>
+			</item>
+			<item>
+				<title>Knowledge in the age of AI</title>
+				<link>https://michaelginalick.com/posts/ai-and-knowledge/</link>
+				<pubDate>Fri, 20 Feb 2026 12:00:55 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/ai-and-knowledge/</guid>
+				<description>Instant answers</description>
+			</item>
+			<item>
+				<title>Command Pattern Revisited</title>
+				<link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
+				<pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
+				<description>An update to a previous post</description>
+			</item>
+			<item>
+				<title>Go channel usage</title>
+				<link>https://michaelginalick.com/posts/go-channel-usage/</link>
+				<pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+				<guid>https://michaelginalick.com/posts/go-channel-usage/</guid>
+				<description>Working from a mutex to a channel</description>
+			</item>
+			<item>
+				<title>Command Pattern</title>
+				<link>https://michaelginalick.com/posts/command-pattern/</link>
+				<pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/command-pattern/</guid>
+				<description>Using a simple pattern to coordinate actions</description>
+			</item>
+			<item>
+				<title>AWS Input Transformations</title>
+				<link>https://michaelginalick.com/posts/aws-input-transformations/</link>
+				<pubDate>Thu, 26 Dec 2024 17:30:58 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/aws-input-transformations/</guid>
+				<description>Using a simple AWS tool to improve local and cloud development workflows</description>
+			</item>
+			<item>
+				<title>Using defer in novel ways</title>
+				<link>https://michaelginalick.com/posts/defer/</link>
+				<pubDate>Wed, 13 Nov 2024 09:25:56 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/defer/</guid>
+				<description>Using common language features in novel ways</description>
+			</item>
+			<item>
+				<title>Chain of Responsibility</title>
+				<link>https://michaelginalick.com/posts/chain-of-responsibility/</link>
+				<pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
+				<guid>https://michaelginalick.com/posts/chain-of-responsibility/</guid>
+				<description>Utilizing established design patterns</description>
+			</item>
+			<item>
+				<title>Go builder pattern</title>
+				<link>https://michaelginalick.com/posts/go-builder/</link>
+				<pubDate>Thu, 08 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>https://michaelginalick.com/posts/go-builder/</guid>
+				<description>A simple use case for functional options</description>
+			</item>
+	</channel>
 </rss>

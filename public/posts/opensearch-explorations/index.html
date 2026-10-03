@@ -123,7 +123,7 @@
 
       
       &nbsp; · &nbsp;
-      5 min read
+      6 min read
       
     </p>
 
@@ -162,7 +162,7 @@
 <p>With the requirements in hand, I started developing the feature. I’ll spare you the details here, but the first step was integrating with a third-party system that tracks user engagement. This involved setting up an SQS queue and ingesting the data into a separate index. The next step was taking the data in this new index (let’s call it “popularity”) and hydrating the documents in another index with the popularity data. This was straightforward and involved setting up a few Cron jobs (or, in AWS terms, CloudWatch Events). An event would trigger a Lambda function that queried one index and wrote the results to another.</p>
 <p>This setup worked well for a few weeks—until the amount of data being queried became non-trivial.</p>
 <p>The query we were using was something OpenSearch warns against. In plain terms, it was simply counting how many times an attribute occurred within a given time frame. Here’s an example of the query:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">0</span>,
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;bool&#34;</span>: {
@@ -206,7 +206,7 @@
 <h1 id="the-solution-index-transformations">The Solution: Index Transformations</h1>
 <p>After extensive research and trial and error, I discovered a promising feature, <a href="https://opensearch.org/docs/latest/im-plugin/index-transforms/index/">Index transformations</a>. The OpenSearch documentation provides an excellent explanation of this feature’s use cases, so I won’t go into too much detail. In summary, it was exactly what I needed. Instead of issuing the same query for every document, the transform job runs continuously and stores the results for each document.</p>
 <p>Here’s an example of the transform job:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;transform&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;description&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Track click events per post_uid in 72 hours, 30 days, and 90 days intervals&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;page_size&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>,

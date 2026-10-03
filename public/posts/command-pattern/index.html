@@ -189,7 +189,7 @@
 </ol>
 <p>After updating the requirements for this Lambda, the use case for the command pattern became clearer to me. Thankfully, Go makes it very easy to implement these kinds of patterns. Below I will show the outline I used to implement the Command Pattern using the example of a money transfer from one account to another.</p>
 <p>The first thing was to develop a contract in the form of an interface.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Command <span style="color:#fff;font-weight:bold">interface</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Command <span style="color:#fff;font-weight:bold">interface</span> {
 </span></span><span style="display:flex;"><span>  Call()
 </span></span><span style="display:flex;"><span>  Succeeded() <span style="color:#fff;font-weight:bold">bool</span>
 </span></span><span style="display:flex;"><span>  SetSucceeded(value <span style="color:#fff;font-weight:bold">bool</span>)
@@ -197,12 +197,12 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>You don&rsquo;t typically see a lot of getters and setters in Go, but this example aims for clarity and not necessarily the most idiomatic code. This interface is very simple; it basically has a Call method that will be in charge of invoking all the individual commands, two methods for determining the result of individual commands, and an Undo method. This should be called if any one operation fails.</p>
 <p>Now that we have a contract, there needs to be a way to aggregate this to accommodate many commands. Fortunately, we can embed interfaces in structs.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>  commands []Command
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Now that there is a contract via interface and a way to aggregate the interface, we can add some additional structs, some of which will implement the Command interface. For this, struct composition will be used, which is a great way to model data in Go. Using this technique, we can satisfy the Command interface without directly implementing it on every struct type.</p>
 <p>The first is a simple Account struct with a balance field. It will also have two methods for adding and subtracting.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BankAccount <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	balance <span style="color:#fff;font-weight:bold">int</span>
 </span></span><span style="display:flex;"><span>}
@@ -217,7 +217,7 @@
 </span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;Withdrew&#34;</span>, amount, <span style="color:#0ff;font-weight:bold">&#34;\n, balance is now&#34;</span>, b.balance)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Now a command can be introduced that acts on an account. This struct will implement the Command interface.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">int</span>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">int</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> (
 </span></span><span style="display:flex;"><span>	Deposit Action = <span style="color:#fff;font-weight:bold">iota</span>
@@ -258,7 +258,7 @@
 </span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;BankAccountCommand{account: account, action: action, amount: amount}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>With this in place, there is a struct that manages itself, and one that manages the individual actions. This is where the CompositeCommand will come into play. By implementing the Command interface on the CompositeCommand struct, it allows for acting on multiple commands.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> CompositeCommand <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>  commands []Command
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -287,7 +287,7 @@
 </span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;UNDO!&#34;</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Finally, we can use the composite command and tie everything together by composing a transfer struct.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> TransferCommand <span style="color:#fff;font-weight:bold">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> TransferCommand <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	CompositeCommand
 </span></span><span style="display:flex;"><span>	from, to *BankAccount
 </span></span><span style="display:flex;"><span>	amount   <span style="color:#fff;font-weight:bold">int</span>

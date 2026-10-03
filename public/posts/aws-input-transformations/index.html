@@ -168,7 +168,7 @@
 <h1 id="why-use-input-transformers">Why Use Input Transformers?</h1>
 <p>I won’t go into the details of what an input transformer is or how to use it—the AWS documentation does a great job of explaining that. Instead, I’ll focus on why you should use them.</p>
 <p>When an event is consumed by a Lambda function, the <code>handler</code> function signature, without a transformer, might look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event <span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">string</span>]<span style="color:#fff;font-weight:bold">interface</span>{}) <span style="color:#fff;font-weight:bold">error</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event <span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">string</span>]<span style="color:#fff;font-weight:bold">interface</span>{}) <span style="color:#fff;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	eventJSON, _ := json.MarshalIndent(event, <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;  &#34;</span>)
 </span></span><span style="display:flex;"><span>	fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;Event received: %s\n&#34;</span>, <span style="color:#fff;font-weight:bold">string</span>(eventJSON))
 </span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
@@ -178,7 +178,7 @@
 </span></span><span style="display:flex;"><span>	lambda.Start(handler)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The event is a map[string]interface{}. This doesn’t provide much information about the structure of the event being consumed. You could improve it slightly by defining a type for the event:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> EventBridgeEvent <span style="color:#fff;font-weight:bold">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> EventBridgeEvent <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	Version    <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;version&#34;`</span>
 </span></span><span style="display:flex;"><span>	ID         <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;id&#34;`</span>
 </span></span><span style="display:flex;"><span>	DetailType <span style="color:#fff;font-weight:bold">string</span>                 <span style="color:#0ff;font-weight:bold">`json:&#34;detail-type&#34;`</span>
@@ -201,7 +201,7 @@
 </span></span></code></pre></div><p>This is better, but notice how the Detail field is still a map[string]interface{}? In my experience, the Detail field typically contains the data that the Lambda logic relies on. This is where input transformers come into play—they allow you to take the raw event data and map it into something more structured and useful.</p>
 <h1 id="example-use-case">Example Use Case</h1>
 <p>Let’s say you have an event that fires when a database row is updated. The raw event might look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;version&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;14&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;7bf73129-1428-4cd3-a780-95db273d1602&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;detail-type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;DB Address change Notification&#34;</span>,
@@ -218,14 +218,14 @@
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Here, the Lambda function only cares about two fields: the action (&ldquo;address changed&rdquo;) and the user_id. By using an input transformer, you can simplify the payload, sending only the relevant data to the Lambda in a predefined structure:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;data&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;action&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;address changed&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;user_id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;11nbd2a2s3eq4321&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>And the updated function signature can now look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event json.RawMessage) <span style="color:#fff;font-weight:bold">error</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> handler(ctx context.Context, event json.RawMessage) <span style="color:#fff;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;Event received: %s\n&#34;</span>, <span style="color:#fff;font-weight:bold">string</span>(event))
 </span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
@@ -234,7 +234,7 @@
 </span></span><span style="display:flex;"><span>	lambda.Start(handler)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>This may not seem like a significant change, but now you can define and validate the event structure within your application. For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Action <span style="color:#fff;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	Action  <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;action&#34;`</span>
 </span></span><span style="display:flex;"><span>	UserID  <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;user_id&#34;`</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// Other fields the action may need</span>
@@ -267,7 +267,7 @@
 <h2 id="enhanced-testing-and-local-development">Enhanced Testing and Local Development</h2>
 <p>Testing becomes much easier when working with structured JSON payloads. Instead of defining complex map[string]interface{} objects, you can use simple JSON files for testing.</p>
 <p>Here’s an example folder structure:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cmd/
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cmd/
 </span></span><span style="display:flex;"><span>  dev/
 </span></span><span style="display:flex;"><span>    test.json
 </span></span><span style="display:flex;"><span>    sample1.json
