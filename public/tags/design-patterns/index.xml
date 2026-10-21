@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Tue, 09 Dec 2025 16:34:06 -0600</lastBuildDate>
+			<lastBuildDate>Tue, 20 Oct 2026 15:30:48 -0500</lastBuildDate>
 		
 			<atom:link href="https://michaelginalick.com/tags/design-patterns/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Don&#39;t Kill My Vibe</title>
+				<link>https://michaelginalick.com/posts/dont-kill-my-vibe/</link>
+				<pubDate>Tue, 20 Oct 2026 15:30:48 -0500</pubDate>
+				<guid>https://michaelginalick.com/posts/dont-kill-my-vibe/</guid>
+				<description>Using AI deliberately is still learning — it just looks different now.</description>
+			</item>
 			<item>
 				<title>Command Pattern Revisited</title>
 				<link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
