@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Design Patterns on Me</title>
-		<link>https://michaelginalick.com/tags/design-patterns/</link>
+		<link>http://localhost:1313/tags/design-patterns/</link>
 		<description>Recent content in Design Patterns on Me</description>
 		<generator>Hugo</generator>
 		<language>en-us</language>
@@ -12,33 +12,33 @@
 		
 			<lastBuildDate>Tue, 20 Oct 2026 15:30:48 -0500</lastBuildDate>
 		
-			<atom:link href="https://michaelginalick.com/tags/design-patterns/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="http://localhost:1313/tags/design-patterns/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Don&#39;t Kill My Vibe</title>
-				<link>https://michaelginalick.com/posts/dont-kill-my-vibe/</link>
+				<link>http://localhost:1313/posts/dont-kill-my-vibe/</link>
 				<pubDate>Tue, 20 Oct 2026 15:30:48 -0500</pubDate>
-				<guid>https://michaelginalick.com/posts/dont-kill-my-vibe/</guid>
+				<guid>http://localhost:1313/posts/dont-kill-my-vibe/</guid>
 				<description>Using AI deliberately is still learning — it just looks different now.</description>
 			</item>
 			<item>
 				<title>Command Pattern Revisited</title>
-				<link>https://michaelginalick.com/posts/command-pattern-revisited/</link>
+				<link>http://localhost:1313/posts/command-pattern-revisited/</link>
 				<pubDate>Tue, 09 Dec 2025 16:34:06 -0600</pubDate>
-				<guid>https://michaelginalick.com/posts/command-pattern-revisited/</guid>
+				<guid>http://localhost:1313/posts/command-pattern-revisited/</guid>
 				<description>An update to a previous post</description>
 			</item>
 			<item>
 				<title>Command Pattern</title>
-				<link>https://michaelginalick.com/posts/command-pattern/</link>
+				<link>http://localhost:1313/posts/command-pattern/</link>
 				<pubDate>Wed, 15 Jan 2025 11:41:00 -0600</pubDate>
-				<guid>https://michaelginalick.com/posts/command-pattern/</guid>
+				<guid>http://localhost:1313/posts/command-pattern/</guid>
 				<description>Using a simple pattern to coordinate actions</description>
 			</item>
 			<item>
 				<title>Chain of Responsibility</title>
-				<link>https://michaelginalick.com/posts/chain-of-responsibility/</link>
+				<link>http://localhost:1313/posts/chain-of-responsibility/</link>
 				<pubDate>Fri, 08 Nov 2024 11:06:37 -0600</pubDate>
-				<guid>https://michaelginalick.com/posts/chain-of-responsibility/</guid>
+				<guid>http://localhost:1313/posts/chain-of-responsibility/</guid>
 				<description>Utilizing established design patterns</description>
 			</item>
 	</channel>
